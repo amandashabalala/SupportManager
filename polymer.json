@@ -1,0 +1,9 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/sm-app.html",
+  "fragments": [
+    "src/sm-auth-persons.html",
+    "src/my-view2.html",
+    "src/my-view3.html"
+  ]
+}

@@ -1,0 +1,78 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/firebase/firebase.js">
+<link rel="import" href="../bower_components/firebase-element/firebase.html">
+<link rel="import" href="../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+
+<dom-module id="sm-auth-persons">
+    <template>
+        <style>
+            :host {
+                display: block;
+                padding: 10px;
+            }
+
+            #simple {
+                height: 300px;
+            }
+            
+            span{
+                padding: 10px;
+            }
+        </style>
+
+
+    <firebase-collection
+    id = "authPersonsCol"
+      order-by-child="FirstName"
+      limit-to-first="10"
+      location="https://supportmanager.firebaseio.com/authorizedPersons"
+      data="{{authorisedPersons}}"></firebase-collection>
+      
+      <template is="dom-repeat" items="{{authorisedPersons}}" as="authorisedPerson">
+          <div>
+      <span>[[authorisedPerson.__firebaseKey__]]</span>
+      First Name: <span>[[authorisedPerson.FirstName]]</span>
+      Last Name: <span>[[authorisedPerson.LastName]]</span>
+      Email: <span>[[authorisedPerson.Email]]</span>
+      <paper-button raised>Edit</paper-button>
+      </div>
+    </template>
+<paper-button raised on-tap="toggleDialog">Add New</paper-button>
+<paper-dialog id="authDialog">
+  <h2>Add New Authorized Person</h2>
+  <paper-dialog-scrollable>
+    Coming soon...
+  </paper-dialog-scrollable>
+  <div class="buttons">
+    <paper-button dialog-dismiss>Cancel</paper-button>
+    <paper-button dialog-confirm autofocus>Accept</paper-button>
+  </div>
+</paper-dialog>
+    </template>
+    <script>
+        Polymer({
+
+            is: 'sm-auth-persons',
+
+            properties: {
+                authorisedPersons: {
+                    type: Array,
+                    notify: true,
+                    observer: '_authorisedPersonsChanged'
+                },
+                user: {
+                    type: Object
+                }
+
+            },
+            
+                            toggleDialog : function()
+                {
+                    this.$.authDialog.toggle();
+                }
+        });
+    </script>
+</dom-module>
